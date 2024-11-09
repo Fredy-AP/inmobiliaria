@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Inversión - Inmobiliaria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Inmobiliaria</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contactar</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard de Propiedades -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Dashboard de Propiedades de Inversión</h2>
+        
+        <!-- Información de usuario y datos de inversión -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Mi Perfil</h5>
+                        <p class="card-text">Nombre del usuario: Juan Pérez</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Dinero Disponible</h5>
+                        <p class="card-text">$50,000 USD</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Inversiones Actuales</h5>
+                        <p class="card-text">$120,000 USD</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Inversiones Recomendadas</h5>
+                        <p class="card-text">3 nuevas oportunidades</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtro de propiedades -->
+        <div class="mb-4">
+            <h5>Filtrar Propiedades</h5>
+            <select id="filter-location" class="form-select mb-3" onchange="filterProperties()">
+                <option value="all">Todas las ubicaciones</option>
+                <option value="Cartagena">Cartagena</option>
+                <option value="Medellín">Medellín</option>
+                <option value="Boyacá">Boyacá</option>
+            </select>
+        </div>
+
+        <!-- Tabla de propiedades -->
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Ubicación</th>
+                    <th>Precio</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="property-table">
+                <!-- Aquí se llenarán las filas de propiedades desde script.js -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Lista de propiedades
+        const properties = [
+            { name: "Casa en Cartagena", location: "Cartagena", price: "$150,000 USD", description: "Casa cerca a la playa con 3 habitaciones y 2 baños." },
+            { name: "Apartamento en Medellín", location: "Medellín", price: "$120,000 USD", description: "Apartamento en el centro con excelentes vistas." },
+            { name: "Finca en Boyacá", location: "Boyacá", price: "$200,000 USD", description: "Finca espaciosa con área para cultivo y ganado." },
+            { name: "Casa en Medellín", location: "Medellín", price: "$130,000 USD", description: "Casa en zona tranquila y de fácil acceso." },
+            { name: "Apartamento en Cartagena", location: "Cartagena", price: "$160,000 USD", description: "Apartamento con vista al mar." },
+            { name: "Terreno en Boyacá", location: "Boyacá", price: "$100,000 USD", description: "Terreno apto para construcción o cultivo." }
+        ];
+
+        // Función para mostrar propiedades
+        function displayProperties(filteredProperties) {
+            const propertyTable = document.getElementById('property-table');
+            propertyTable.innerHTML = ""; // Limpiar tabla antes de mostrar
+
+            filteredProperties.forEach(property => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${property.name}</td>
+                    <td>${property.location}</td>
+                    <td>${property.price}</td>
+                    <td>${property.description}</td>
+                    <td><button class="btn btn-primary" onclick="showDetails('${property.name}', '${property.location}', '${property.price}', '${property.description}')">Ver Detalles</button></td>
+                `;
+                propertyTable.appendChild(row);
+            });
+        }
+
+        // Filtrar propiedades por ubicación
+        function filterProperties() {
+            const location = document.getElementById('filter-location').value;
+            const filteredProperties = location === 'all' ? properties : properties.filter(property => property.location === location);
+            displayProperties(filteredProperties);
+        }
+
+        // Mostrar detalles de la propiedad
+        function showDetails(name, location, price, description) {
+            alert(`Deta
